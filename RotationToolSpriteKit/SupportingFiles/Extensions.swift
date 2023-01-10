@@ -22,6 +22,15 @@ extension CGPoint {
     }
 }
 
+extension CGSize {
+    static func *(lhs: CGSize, rhs: Double) -> CGSize {
+        return CGSize(
+            width: lhs.width * rhs,
+            height: lhs.height * rhs
+        )
+    }
+}
+
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape( RoundedCorner(radius: radius, corners: corners) )
