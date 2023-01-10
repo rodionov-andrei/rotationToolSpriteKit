@@ -31,7 +31,7 @@ struct ControlView: View {
                     .controlSize(.small)
                 
                 Spacer()
-                Button("Reset", action: {self.viewModel.output.send(.reset)})
+                Button("Reset", action: { self.viewModel.reset() })
         }
         .padding(.horizontal, 40)
         .padding()

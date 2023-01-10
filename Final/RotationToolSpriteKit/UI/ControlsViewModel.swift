@@ -17,9 +17,18 @@ final class ControlViewModel: ObservableObject {
     @Published var photoPickerItem: PhotosPickerItem? = nil
     private var cancellables = Set<AnyCancellable>()
     private var rotation: Rotation = .init(x: 0, y: 0, z: 0)
+    private var isSliderValueReset = false
 
     init() {
         self.$sliderValue
+            .filter { _ in
+                if self.isSliderValueReset {
+                    self.isSliderValueReset = false
+                    return false
+                } else {
+                    return true
+                }
+            }
             .sink { [weak self] value in
                 guard let self else { return }
                 DispatchQueue.main.async {
@@ -63,5 +72,12 @@ final class ControlViewModel: ObservableObject {
                 
             }
             .store(in: &cancellables)
+    }
+    
+    func reset() {
+        self.isSliderValueReset = true
+        self.sliderValue = 0
+        self.rotation = .init(x: 0, y: 0, z: 0)
+        self.output.send(.reset)
     }
 }
